@@ -20,7 +20,7 @@ defineText('Prefix', 3, InputLength.Varying, nil)  -- Input for prefix
 defineNumber('Number', 4, 0, 9999, nil)  -- Input for number
 defineText('Postfix', 1, InputLength.Varying, nil)  -- Input for postfix
 
--- Data tables for prefix, postfix, and extra letter characters
+
 local prefixChars = {
     PeninsularMalaysia = {'A', 'B', 'C', 'D', 'J', 'K', 'M', 'N', 'P', 'R', 'T'},
     KualaLumpurNew = {'V'},
@@ -59,12 +59,39 @@ local statePrefixes = {
 
 -- Configuration for special prefixes
 local specialPrefixes = {
-    { prefix = {"PROTON","PERODUA","WAJA","Chancellor","Putra","Persona","Satria","Tiara","Perdana","LOTUS","KRISS","Jaguh","NAZA","SUKOM","BAMbee","XIIINAM","XOIC","XXVIASEAN","XXXIDB","1M4U","PATRIOT","PERFECT","TTB","NAAM","VIP","RIMAU","IQ","FFF","GT","GTR","G1M","GOLD","GP","A1M","T1M","K1M","NBOS","Q","QQ","SAS","SAM","SMS","E","X","XX","Y","YY","YA","YC","U","UU","UUU","US","UP","UA","UT","UMT","UM","UNIMAS","UNISZA","UTM","UTEM","UKM","UUM","USM","UiTM","UPM","UTHM","IIUM","UMK","UR","UC","UG","UN","UQ","AAA","BBB","JJJ","CCC","WWW","RR","DDD","PPP","FF","F1","W1N","BMW","RM","AKU","SYG","KFC","MCM","JPJ"} },
-    { prefix = {"Malaysia", "Putrajaya"}, font = "calistomtitalic.ttf" },
-    { prefix = "G", postfix = "G" },
-    { prefix = "M", postfix = "M" },
-    { prefix = "WWW", postfix = 1 },
-    { prefix = "JJJ", postfix = 1 },
+    ev = {  -- Electric Vehicle category
+        { prefix = "EV", category = "Electric Vehicles" }
+    },
+    active = {  -- Currently active special plates (2024-2025)
+        -- Government and Commemorative
+        { prefix = {"GOLD", "FFF", "MADANI", "PETRA", "ANSARA", "VIPS"} }, -- Government and Commemorative
+        { prefix = {"M"}, postfix = {"M"} }, -- For M_M formats -- Anniversary
+        { prefix = {"A"}, postfix = {"A"} }, -- For A_A formats -- Anniversary
+        { prefix = {"Malaysia", "Putrajaya"}, font= { "calistomtitalic.ttf" } }, -- Special Government Plates
+
+        -- Automotive Industry
+        { prefix = {"PROTON", "PERODUA", "LOTUS", "NAZA"} },
+        
+        -- Special Series
+        { prefix = {"UUU", "IQ", "QQ", "UA", "E"} },
+        
+        -- Premium Series
+        { prefix = {"G", "GG", "GT", "GTR", "G1M", "GP"} },
+        { prefix = {"G"}, postfix = {"G"} }, -- For G_G formats
+        
+        -- Organizations
+        { prefix = {"1M4U", "A1M", "Chancellor"} }
+    },
+    dormant = {  -- Historical or inactive plates
+        -- Legacy Auto Models
+        { prefix = {"WAJA", "Satria"} },
+        
+        -- Historical Events
+        { prefix = {"SUKOM", "XIIINAM", "XOIC", "XXVIASEAN", "XXXIDB"} },
+        
+        -- Retired Series
+        { prefix = {"NBOS", "PATRIOT", "PERFECT", "NAAM", "K1M", "RAPID", "SAS", "Comel"} },
+    }
 }
 
 -- Utility functions
@@ -154,16 +181,28 @@ return function(PlateDesign, plateType, Prefix, Number, Postfix)
         postfixOut = stateConfig.postfix and getRandomElement(stateConfig.postfix) or ""
 
     elseif plateType == "Special" then
-        local specialConfig = specialPrefixes[math.random(#specialPrefixes)]
+        local specialList = {}
+
+        if PlateDesign == "EV" then
+            -- EV design: EV + active only
+            for _, v in ipairs(specialPrefixes.ev) do table.insert(specialList, v) end
+            for _, v in ipairs(specialPrefixes.active) do table.insert(specialList, v) end
+        else
+            -- Other designs: active + dormant
+            for _, v in ipairs(specialPrefixes.active) do table.insert(specialList, v) end
+            for _, v in ipairs(specialPrefixes.dormant) do table.insert(specialList, v) end
+        end
+
+        local specialConfig = specialList[math.random(#specialList)]
         prefixOut = type(specialConfig.prefix) == "table" and getRandomElement(specialConfig.prefix) or specialConfig.prefix
         numberOut = tostring(math.random(1, 9999))
         if specialConfig.postfix then
-            postfixOut = type(specialConfig.postfix) == "number" and string.char(64 + math.random(26)) or specialConfig.postfix
+            postfixOut = type(specialConfig.postfix) == "table" and getRandomElement(specialConfig.postfix) or specialConfig.postfix
         else
             postfixOut = ""
         end
         if specialConfig.font then
-            text.font = specialConfig.font
+            text.font = type(specialConfig.font) == "table" and specialConfig.font[1] or specialConfig.font
         end
     end
 

@@ -34,7 +34,7 @@ Supports a wide variety of plate types including Malaysian EV plates, UK-styled 
 
 | Format ID        | Description                     | Style                  |
 |------------------|----------------------------------|------------------------|
-| `EV`             | Malaysian EV plate (FE-FONT)     | Green background       |
+| `EV`             | Malaysian EV plate (FE-FONT)     | EV Plate               |
 | `UK_Simple`      | UK-style plate (two-liner)       | No frame               |
 | `UK_Framed`      | UK-style plate (two-liner)       | Silver frame           |
 | `EU_Simple`      | EU-style plate (single-line)     | Centered, no frame     |
