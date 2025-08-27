@@ -110,15 +110,8 @@ Drop the extracted folder into:
 ---
 
 ## To-Do:
-- Refactor and enhance special plate generation logic, including:
-  - Introduce new EV prefix for electric vehicle plates.
-  - Restructure special plate categorization into:
-    - EV-exclusive plates
-    - Active special plates
-    - Inactive/Dormant special plates
-- Implement dynamic text scaling based on character length (does not affect Custom Mode).
-- Add a text size slider for improved customization in Custom Mode.
-
+- Fix custom mode formatting issues, the logic completely ignores any letters between spaces.
+- Fix centering issue with custom mode in UK Plates(2 line plates)
 
 ## 🧾 License
 **MIT License** – Free to use, reuse, remix, repost, and build on.
