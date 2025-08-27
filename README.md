@@ -75,14 +75,14 @@ Drop the extracted folder into:
     - Standard - Generate realistic Malaysia state plate
     - Special - Generate special issued JPJ plate
     - Custom - Generate plate based on user input
-6. Prefix - For custom input
-7. Number - Sliders to generate plate and for custom input
-8. Postfix - For custom input
+6. Generator - Slider to generate plate
+7. Number - Slider to number for the plate, 0 = randomized
+8. Custom - User's custom input
 
 **Lost? Chill. Just [watch the 1-minute demo](https://youtu.be/ZieHsXteYko) and you’ll be vibin’.**
 
 ### Menu
-<img width="750" height="192" alt="menu croppped" src="https://github.com/user-attachments/assets/c3d4815d-11b9-4748-9d29-5f6760310803" />
+<img width="747" height="219" alt="471221614-c3d4815d-11b9-4748-9d29-5f6760310803" src="https://github.com/user-attachments/assets/42aa610d-eee0-4699-89e5-4e8bd81a5432" />
 
 ## Plate Designs
 ### EU - Framed
